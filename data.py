@@ -30,18 +30,25 @@ def train_wv(data):
 
 #Load the Google News Word2Vec
 def load_google_wv(file):
-    model =  Word2Vec.load_word2vec_format(file, binary=True)  
+    model =  gensim.models.KeyedVectors.load_word2vec_format(file, binary=True)  
     return model
 
 
 def main():
 
 
-    load_data('training_data.csv')
+    sentences = load_data('training_data.csv')
+    #print(sentences)
     loaded_model = load_google_wv('GoogleNews-vectors-negative300.bin')
+    #print(loaded_model.vocab)
 
     w1 = "friend"
-    print(loaded_model.wv.most_similar(positive = w1))
+    w2 = "pal"
+    #Print most similar words
+    print("Top 10 most similar words to w1:",loaded_model.wv.most_similar(positive = w1, topn = 10))
+    
+    #Print similarity between two word
+    print("Similarity:", loaded_model.wv.similarity(w1, w2))
 
 
 main()
